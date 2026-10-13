@@ -20,3 +20,5 @@ RESULTS = Path(os.environ.get("BCMID_RESULTS_DIR", ROOT / "results"))
 PAPER = Path(os.environ.get("BCMID_PAPER_DIR", ROOT / "paper"))
 FIGURES = PAPER / "figures"
 GENERATED = PAPER / "generated"
+# PNG copies of the figures that the README shows; unlike paper/, this folder is tracked by git
+README_FIGURES = Path(os.environ.get("BCMID_DOCS_DIR", ROOT / "docs")) / "figures"

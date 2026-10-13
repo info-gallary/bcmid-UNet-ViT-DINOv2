@@ -194,6 +194,8 @@ def _save(fig, name):
     paths.FIGURES.mkdir(parents=True, exist_ok=True)
     fig.savefig(paths.FIGURES / f"{name}.pdf")
     fig.savefig(paths.FIGURES / f"{name}.png", dpi=200)
+    paths.README_FIGURES.mkdir(parents=True, exist_ok=True)
+    fig.savefig(paths.README_FIGURES / f"{name}.png", dpi=160)
     plt.close(fig)
 
 

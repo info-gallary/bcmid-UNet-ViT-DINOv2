@@ -36,6 +36,47 @@ def pick_cases(df):
     return cases
 
 
+def fig_preprocessing(manifest):
+    """The file as stored next to the cached image, for each kind of input.
+
+    Examples are the first film mammogram, digital mammogram and ultrasound
+    frame in manifest order. Needs the raw archive; skipped if it is absent.
+    """
+    import zipfile
+
+    import matplotlib.pyplot as plt
+
+    from . import preprocess as pp
+
+    if not paths.RAW_ZIP.exists():
+        return None
+    film = manifest.inverted.astype(str).str.lower().eq("true")
+    mg = manifest.modality == "MG"
+    picks = [("Film mammogram", manifest[mg & film].iloc[0]), ("Digital mammogram", manifest[mg & ~film].iloc[0]),
+             ("Ultrasound screenshot", manifest[manifest.modality == "US"].iloc[0])]
+    panels = []
+    with zipfile.ZipFile(paths.RAW_ZIP) as zf:
+        for title, row in picks:
+            data = zf.read(row.member)
+            raw = pp.decode(data)
+            if raw.ndim == 3:
+                raw = cv2.cvtColor(np.ascontiguousarray(raw[..., :3]), cv2.COLOR_BGR2GRAY)
+            scale = 900 / max(raw.shape)
+            raw = cv2.resize(raw, None, fx=scale, fy=scale, interpolation=cv2.INTER_AREA)
+            panels += [(f"{title}\nas stored", raw), ("after\npreprocessing", pp.preprocess_bytes(data, row.modality)[0])]
+    ratios = [img.shape[1] / img.shape[0] for _, img in panels]
+    fig, axes = plt.subplots(1, len(panels), figsize=(2.5 * sum(ratios), 3.1),
+                             gridspec_kw={"width_ratios": ratios, "wspace": 0.05})
+    for ax, (title, img) in zip(axes, panels):
+        ax.imshow(img, cmap="gray", vmin=0, vmax=255, aspect="equal")
+        ax.set_title(title, fontsize=8)
+        ax.axis("off")
+    paths.README_FIGURES.mkdir(parents=True, exist_ok=True)
+    fig.savefig(paths.README_FIGURES / "fig_preprocessing.png", bbox_inches="tight", pad_inches=0.03, dpi=140)
+    plt.close(fig)
+    return [row.member for _, row in picks]
+
+
 def saliency_concentration(ens, df, manifest, arrays):
     """How far are the saliency maps and MIL weights from uniform, on held-out studies?
 
@@ -106,7 +147,10 @@ def run(variant="full"):
     paths.FIGURES.mkdir(parents=True, exist_ok=True)
     fig.savefig(paths.FIGURES / "fig_qualitative.pdf", bbox_inches="tight", pad_inches=0.02, dpi=300)
     fig.savefig(paths.FIGURES / "fig_qualitative.png", bbox_inches="tight", pad_inches=0.02, dpi=200)
+    paths.README_FIGURES.mkdir(parents=True, exist_ok=True)
+    fig.savefig(paths.README_FIGURES / "fig_qualitative.png", bbox_inches="tight", pad_inches=0.02, dpi=140)
     plt.close(fig)
+    fig_preprocessing(manifest)
     json.dump(picked, open(paths.RESULTS / "qualitative_cases.json", "w"), indent=1)
 
     # preprocessing statistics quoted in the paper
