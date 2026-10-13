@@ -1,0 +1,7 @@
+# Keep the dashboard on this machine: it displays medical images.
+[server]
+address = "localhost"
+headless = false
+
+[browser]
+gatherUsageStats = false

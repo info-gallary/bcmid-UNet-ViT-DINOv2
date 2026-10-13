@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# The manuscript and its generated figures/tables stay local
+paper/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# The raw archive, image cache and checkpoints live outside the repository (see README: ~/bcmid_work)
+*.zip
+*.npy
+*.pt
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/

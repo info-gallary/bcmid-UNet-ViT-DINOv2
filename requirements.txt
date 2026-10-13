@@ -1,0 +1,10 @@
+torch>=2.2
+timm>=1.0
+numpy
+pandas
+scipy
+scikit-learn
+opencv-python
+matplotlib
+streamlit>=1.50
+plotly
