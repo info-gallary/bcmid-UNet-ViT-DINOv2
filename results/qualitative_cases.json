@@ -1,0 +1,30 @@
+[
+ {
+  "case": "True positive (highest score)",
+  "patient_id": "04412y221",
+  "birads": 4,
+  "prob_fused": 0.9858105231265812,
+  "fold": 3
+ },
+ {
+  "case": "True positive (median score)",
+  "patient_id": "01271y23",
+  "birads": 6,
+  "prob_fused": 0.7089785765135518,
+  "fold": 1
+ },
+ {
+  "case": "False negative (lowest score)",
+  "patient_id": "1196y19",
+  "birads": 4,
+  "prob_fused": 0.0109217167667991,
+  "fold": 3
+ },
+ {
+  "case": "False positive (highest score)",
+  "patient_id": "1000y17",
+  "birads": 2,
+  "prob_fused": 0.9801936288994908,
+  "fold": 3
+ }
+]

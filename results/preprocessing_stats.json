@@ -1,0 +1,24 @@
+{
+ "mg_seg_fallback": 0,
+ "us_seg_fallback": 4,
+ "mg_downsample": 11.5,
+ "mg_orig_h": 5928,
+ "mg_orig_w": 4728,
+ "us_orig_h": 670,
+ "us_orig_w": 960,
+ "us_laterality_unknown": 223,
+ "mg_frame_trimmed": 874,
+ "mg_sizes": {
+  "film": {
+   "size": "4728x5928",
+   "share": 1.0,
+   "n": 875
+  },
+  "digital": {
+   "size": "2800x3518",
+   "share": 1.0,
+   "n": 76
+  }
+ },
+ "us_size_share": 1.0
+}
